@@ -1,6 +1,7 @@
 package org.bigdata.view;
 
 import java.util.Properties;
+import java.util.Timer;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -51,12 +52,16 @@ public class ProducerViewController {
 	private TextField keySerializerTF;
 	@FXML
 	private TextField valueSerializerTF;
+	@FXML
+	private TextField intervalValTF;
 	
 	@FXML
 	private TextArea sendDataTA;
 	
 	@FXML
 	private Button sendBtn;
+	@FXML
+	private Button intervalSendBtn;
 	
 	/**
      * 컨트롤러 클래스를 초기화한다.
@@ -70,13 +75,49 @@ public class ProducerViewController {
     @FXML
     private void sendMsg() {
     	String sendData	= sendDataTA.getText();
-    	Properties props	= new Properties();
     	
     	if(sendData.trim().length() == 0) {
     		DialogUtil.createInformationDialog("정보", null, "데이터를 입력해 주세요.").showAndWait();
     		
     		return;
     	}
+    	
+	    Producer<String, String> producer = new KafkaProducer<String, String>(createProp());
+	     
+	    producer.send(new ProducerRecord<String, String>(topicNameTF.getText(), System.currentTimeMillis() + "", sendData));
+    }
+    
+    @FXML
+    private void sendIntervalMsg() {
+    	String sendData			= sendDataTA.getText();
+    	//String intervalSecond	= 
+    	
+    	if(sendData.trim().length() == 0) {
+    		DialogUtil.createInformationDialog("정보", null, "데이터를 입력해 주세요.").showAndWait();
+    		
+    		return;
+    	}
+    	
+    	Timer timer = new Timer();
+    	
+	    Producer<String, String> producer = new KafkaProducer<String, String>(createProp());
+	     
+	    producer.send(new ProducerRecord<String, String>(topicNameTF.getText(), System.currentTimeMillis() + "", sendData));
+    }
+    
+    /*private boolean isValidProcess() {
+    	String sendData	= sendDataTA.getText();
+    	int interval		= 
+    	
+    	if(sendData.trim().length() == 0) {
+    		DialogUtil.createInformationDialog("정보", null, "데이터를 입력해 주세요.").showAndWait();
+    		
+    		return;
+    	}
+    }*/
+    
+    private Properties createProp() {
+    	Properties props	= new Properties();
     	
     	//Assign localhost id
     	props.put("bootstrap.servers", bootstrapServersTF.getText());
@@ -99,9 +140,7 @@ public class ProducerViewController {
 	    props.put("key.serializer", keySerializerTF.getText());
 	         
 	    props.put("value.serializer", valueSerializerTF.getText());
-	      
-	    Producer<String, String> producer = new KafkaProducer<String, String>(props);
-	     
-	    producer.send(new ProducerRecord<String, String>(topicNameTF.getText(), System.currentTimeMillis() + "", sendData));
+	    
+	    return props;
     }
 }
