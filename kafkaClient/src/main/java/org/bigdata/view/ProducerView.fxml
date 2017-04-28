@@ -72,7 +72,7 @@
       <Group layoutX="20.0" layoutY="518.0">
          <children>
             <Button fx:id="sendBtn" mnemonicParsing="false" onAction="#sendMsg" text="단건전송" />
-            <Button fx:id="intervalSendBtn" layoutX="225.0" mnemonicParsing="false" onAction="#sendMsg" text="인터벌전송" />
+            <Button fx:id="intervalSendBtn" layoutX="225.0" mnemonicParsing="false" onAction="#sendIntervalMsg" text="인터벌전송" />
             <TextField fx:id="intervalValTF" layoutX="159.0" prefWidth="60.0" />
             <Label layoutX="121.0" layoutY="4.0" text="초단위" />
          </children>
