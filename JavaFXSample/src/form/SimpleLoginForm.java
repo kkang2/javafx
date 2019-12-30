@@ -48,7 +48,7 @@ public class SimpleLoginForm extends Application {
 		PasswordField pwBox = new PasswordField();
 		grid.add(pwBox, 1, 2);
 		
-		//grid.setGridLinesVisible(true); // 그리드 선 보이기 : 디버깅 용도
+		//grid.setGridLinesVisible(true);  그리드 선 보이기 : 디버깅 용도
 		
 		Button btn = new Button("Sign in");
 		HBox hbBtn = new HBox(10);
